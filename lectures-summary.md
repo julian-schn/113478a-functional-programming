@@ -55,3 +55,6 @@ This document summarizes the key concepts and learnings from the Clojure lecture
     - `do`: Used to wrap multiple expressions for side-effects (only the last value is returned).
 - **Side Effects**: Common in logging or IO. `when` implicitly wraps its body in a `do` block.
 - **Truthiness**: In Clojure, only `false` and `nil` are considered "falsey"; everything else is "truthy".
+
+## Lecture 08 - Sequences (Upcoming)
+- Concepts mentioned: Sequence transformations (map, reduce, filter, concat), lazy sequences, and unbound size data structures.
