@@ -39,12 +39,19 @@ This document summarizes the key concepts and learnings from the Clojure lecture
 - **Destructuring**:
     - **Sequential**: `(let [[a b & rest :as all] [1 2 3 4]] ...)`
     - **Map**: `(let [{:keys [foo bar] :as all} my-map] ...)`
+- **Persistence (Persistent Data Structures)**:
+    - Clojure uses "Okasaki" data structures (finger trees, hitchhiker's trees) for efficiency.
+    - **Immutability**: Values never change. Instead, "novelty" is added while the rest of the structure is reused.
+    - **Shared Data**: A linked list can have multiple entry points sharing the same tail. This avoids copying overhead.
+    - **Garbage Collection**: Nodes are collected only when they are no longer accessible from any entry point (reference).
 
 ## Lecture 07 - Core Functions & Conditionals
 - **Equality**: `=` (deep equality), `not=`.
 - **Sequence Ops**: `first`, `rest`, `conj`, `concat`, `nth`, `assoc`, `dissoc`, `merge`.
 - **Conditionals**:
     - `when`, `when-not`: `if` without `else`, returns `nil` if condition is false.
-    - `cond`: Multiple condition branches.
-    - `case`: Constant-time dispatch on a value.
+    - `cond`: Multiple condition branches (sequential if-else).
+    - `case`: Constant-time dispatch on a value (like switch/case).
+    - `do`: Used to wrap multiple expressions for side-effects (only the last value is returned).
+- **Side Effects**: Common in logging or IO. `when` implicitly wraps its body in a `do` block.
 - **Truthiness**: In Clojure, only `false` and `nil` are considered "falsey"; everything else is "truthy".
