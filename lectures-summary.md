@@ -56,5 +56,34 @@ This document summarizes the key concepts and learnings from the Clojure lecture
 - **Side Effects**: Common in logging or IO. `when` implicitly wraps its body in a `do` block.
 - **Truthiness**: In Clojure, only `false` and `nil` are considered "falsey"; everything else is "truthy".
 
-## Lecture 08 - Sequences (Upcoming)
-- Concepts mentioned: Sequence transformations (map, reduce, filter, concat), lazy sequences, and unbound size data structures.
+## Lecture 08 - Sequences & Iteration
+
+* **Sequence Abstraction**: A logical interface representing a sequential flow, distinct from the underlying data structure.
+    * **Definition**: It is not the data itself, but the "knowledge" or function of how to retrieve the **next** element.
+    * **Analogy**: Comparable to Iterators or Streams in Java/C++. 
+    * **Sources**: Can be derived from finite data (vectors, lists), I/O (files, network sockets), or algorithms (random numbers, infinite ranges).
+
+* **`seq`**: Function to create a sequence from a collection.
+    * **Implicit Conversion**: Functions expecting sequences (like `map`) automatically call `seq` on their arguments.
+    * **`nil`**: Represents the empty sequence. `(seq [])` returns `nil`.
+    * **Maps**: Converted to a sequence of `[key value]` vectors. Order is not guaranteed.
+
+* **Predicates**: Functions that evaluate a condition and return a boolean.
+    * **Syntax**: By convention, names end with `?` (e.g., `even?`, `nil?`, `empty?`).
+
+* **Transformations**: Functions that accept a sequence and return a new **lazy** sequence.
+    * **`map`**: Applies a function to every element. `(map inc [1 2])` $\rightarrow$ `(2 3)`.
+    * **`filter`**: Retains elements where the predicate returns `true`.
+    * **`concat`**: Joins multiple sequences into one.
+
+* **Materialization**: "Consuming" a sequence to produce a result or concrete data structure.
+    * **`into`**: Pours a sequence into a collection (e.g., `(into [] (range 5))`).
+    * **`vec`**: Converts a sequence directly to a vector.
+    * **`reduce`**: Aggregates a sequence into a single value using an accumulator function.
+        * **Signature**: `(reduce f init-val collection)`. 
+        * **Default**: If `init-val` is omitted, the first element becomes the initial accumulator.
+
+* **Lazy Evaluation**:
+    * **Definition**: Sequence operations build a processing chain; computation only occurs when elements are requested (e.g., by printing or `into`). 
+    * **Infinite Sequences**: Sequences with no bound, such as `(range)` (0 to $\infty$).
+    * **`take`**: Extracts `n` elements. Essential for safely terminating infinite sequences before materialization.
