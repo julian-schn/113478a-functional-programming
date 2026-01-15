@@ -1,0 +1,17 @@
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+.cpcache/
+.nrepl-port
+.repl/
+.lein-failures
+.lein-repl-history
+.lsp/
+.clj-kondo/.cache/
+
+/target/
+/classes/
+/out/
+/.shadow-cljs/
