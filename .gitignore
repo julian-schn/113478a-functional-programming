@@ -9,7 +9,8 @@
 .lein-failures
 .lein-repl-history
 .lsp/
-.clj-kondo/.cache/
+.clj-kondo/
+.calva/
 
 /target/
 /classes/
