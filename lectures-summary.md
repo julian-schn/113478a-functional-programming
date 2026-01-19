@@ -87,3 +87,15 @@ This document summarizes the key concepts and learnings from the Clojure lecture
     * **Definition**: Sequence operations build a processing chain; computation only occurs when elements are requested (e.g., by printing or `into`). 
     * **Infinite Sequences**: Sequences with no bound, such as `(range)` (0 to $\infty$).
     * **`take`**: Extracts `n` elements. Essential for safely terminating infinite sequences before materialization.
+
+## Lecture 09 - Recursion & Optimization
+- **Recursion**: The primary means of iteration in Clojure (due to immutability).
+- **Stack Usage**: Naive recursion consumes stack frames, leading to `StackOverflowError` for deep recursion.
+- **Tail Call Optimization (TCO)**:
+    - **Concept**: Reuse the same stack frame if the recursive call is in the **tail position** (last action).
+    - **Explicit**: Clojure requires explicit TCO using the `recur` special form.
+- **`recur`**:
+    - Jumps back to the nearest recursion point (`loop` or function start).
+    - Must be in the tail position; compiler enforces this.
+    - Arguments passed to `recur` become the new values for the loop bindings/function arguments.
+- **`loop`**: Creates a local recursion point with initial bindings, similar to `let` but targets for `recur`.
