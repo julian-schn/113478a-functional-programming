@@ -2,7 +2,7 @@
 .idea/
 .vscode/
 *.iml
-./private
+private/
 
 .cpcache/
 .nrepl-port
