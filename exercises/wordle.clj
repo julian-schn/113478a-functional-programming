@@ -15,7 +15,13 @@
 
 ;; The Game Loop
 
-(defn game-loop [target attempts]
+(defn print-board [target attempts]
+  (->> attempts
+       (map #(score-guess target %))
+       (run! println)))
+
+(defn game-loop [{:keys [target attempts] :as state}]
+  (print-board target attempts)
   ;; Show attempts left (6 - count)
   (println "Enter your guess (" (- 6 (count attempts)) " attempts left):")
   
@@ -34,11 +40,11 @@
       (do 
         (println "Score:" (score-guess target guess))
         ;; Use 'recur' for Tail Call Optimization (TCO)
-        (recur target (conj attempts guess))))))
+        (recur (assoc state :attempts (conj attempts guess))))))
 
 ;; Entry Point
 (println "--- Clordle: Clojure Wordle ---")
-(game-loop "react" [])
+(game-loop {:target "react" :attempts []})
 
 ;; TODO: Input validation
 ;; TODO: Word list
