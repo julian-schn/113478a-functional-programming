@@ -80,4 +80,10 @@ mindmapDiagram {
 ***_ :keys binds local names to the values of map keys with the same name
 ***_ :as keeps a binding to the entire original map.
 
+** Higher Order Functions
+***_ HOFs are functions that treat fuctions as data, this allows abstracting of patterns of computation
+***_ Concept: Functions are values, so they can be passed to other functions like map
+
+
+
 @endmindmap
