@@ -16,4 +16,13 @@ mindmap
             (conj adds map entries, when adding entries generically)
         (Clojure is dynamically typed but conj on maps requires the value to be a valid map entry)
         (Clojure does not fully copy collections on conj/assoc, it uses persistent data structures with structurall sharing, this means most of the old strucure is reused, only small parts are new and updates are cheap. Old state still exists as value, if not references andymore it becomes eligible for GC)
+    Recursion
+        (The idea in Clojure is that the state of the loop should be explicit and values should remain being immutable)
+        (Plain recursion can blow the stack and cause a StackOverflowError)
+        Tail Call Optimization
+            recur
+                (recur is a control structure that jumps back to the nearest lloop of function entry with new arguments, bindings, it cannot jump into another function)
+                (recur helps to prevent any accidental non-tail recursion)
+            (Clojure does not automatically perform Tail Call Optimization)
+            (A call is in tail position when it is the final action of the function. Because nothing happens after the recursive call, the compiler can: reuse the current stack frame, avoid strack growth, run in constant stack space)
 ```
