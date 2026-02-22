@@ -75,5 +75,9 @@ mindmapDiagram {
 *****_ recur helps to prevent any\naccidental non-tail recursion
 
 ** Destructuring
+***_ Deconstructing in Clojure is a binding mechaninsm that lets you pull vallues from a data structure like maps, vectors, etc. at the moment you bind a name, instead of manually callling get or nth. In practice, it is most often usedd in function parameter lists and let
+***_ Deconstructing allows you to extract values from key value pairs by key from maps and bind them to local names
+***_ :keys binds local names to the values of map keys with the same name
+***_ :as keeps a binding to the entire original map.
 
 @endmindmap
