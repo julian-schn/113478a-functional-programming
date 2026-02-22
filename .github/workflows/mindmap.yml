@@ -1,0 +1,26 @@
+name: Render Mindmap
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate mindmap PNG
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}":/data \
+            ghcr.io/plantuml/plantuml \
+            -tpng /data/mindmap.puml
+
+      - name: Upload mindmap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mindmap
+          path: mindmap.png

@@ -1,0 +1,79 @@
+@startmindmap
+
+<style>
+mindmapDiagram {
+  node {
+    BackgroundColor #F8FAFC
+    FontColor #0F172A
+    LineColor #CBD5E1
+    RoundCorner 8
+    MaximumWidth 280
+    FontName "Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+    FontSize 14
+  }
+  :depth(0) {
+    BackgroundColor #EEF2FF
+    FontSize 18
+    FontStyle bold
+    LineColor #C7D2FE
+  }
+  :depth(1) {
+    BackgroundColor #EEF2FF
+    LineColor #C7D2FE
+    FontStyle bold
+  }
+  :depth(2) {
+    BackgroundColor #ECFDF5
+    LineColor #A7F3D0
+  }
+  boxless {
+    FontColor #475569
+    FontSize 12
+  }
+  arrow {
+    LineColor #94A3B8
+  }
+}
+</style>
+
+* Clojure
+
+** Immutability
+***_ Clojure uses an immutable data model;\nwe return new data structures with\nchanges applied instead of mutating data
+
+*** assoc
+****_ Associates a key with a value in an\nassociative structure (usually a map)\nand returns a new structure
+
+*** conj
+****_ Adds an element (conjoins) to a\ncollection and returns a new collection
+*****_ Vectors: adds at the end
+*****_ Lists: adds to front
+*****_ Sets: adds if not already present
+*****_ Maps: adds map entries
+
+*** conj vs assoc on maps
+****_ assoc sets a specific key —\nuse when you know the key
+****_ conj adds map entries —\nuse when adding entries generically
+
+***_ Clojure is dynamically typed but conj\non maps requires the value to be\na valid map entry
+
+***_ Clojure does not fully copy collections\non conj/assoc — it uses persistent data\nstructures with structural sharing.\nMost of the old structure is reused,\nonly small parts are new, and updates\nare cheap. Old state still exists as a\nvalue; if no longer referenced it\nbecomes eligible for GC.
+
+** Recursion
+***_ The idea in Clojure is that loop state\nshould be explicit and values should\nremain immutable
+
+***_ Plain recursion can blow the stack\nand cause a StackOverflowError
+
+*** Tail Call Optimization
+****_ Clojure does not automatically\nperform Tail Call Optimization
+
+****_ A call is in tail position when it is\nthe final action of the function.\nBecause nothing happens after the\nrecursive call, the compiler can:\nreuse the current stack frame,\navoid stack growth, and run in\nconstant stack space.
+
+**** recur
+*****_ recur is a control structure that\njumps back to the nearest loop or\nfunction entry with new bindings;\nit cannot jump into another function
+
+*****_ recur helps to prevent any\naccidental non-tail recursion
+
+** Destructuring
+
+@endmindmap
