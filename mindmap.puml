@@ -84,6 +84,20 @@ mindmapDiagram {
 ***_ HOFs are functions that treat fuctions as data, this allows abstracting of patterns of computation
 ***_ Concept: Functions are values, so they can be passed to other functions like map
 
+** Anonymous Functions (lambdas)
+***_ An anonymous function can reference local bindings from the environment where it was created, these bindings are retained for execution
 
+**Sequences
+***_ A sequence in Clojure is an interface, not the data
+***_ A sequence (seq) is a logical view over things you can iterate. This works for many things sucvh as lists, vectors, sets, maps; strings; lazy computations
+*** How to get next element:
+****_ seq returns a seq view, or nil if empty, used to test “is there anything to consume?”
+****_ first returns first element of a seq (or nil)
+****_ rest returns “everything after first”, returns an empty seq () when nothing remains (not nil)
+****_ next like rest, but returns nil when nothing remains; often used when you want a nil termination condition
+
+***_ Most sequences (map, filter, remove, etc.) are lazy, meaning they are computed on demand
+*** ->> (thread last)
+****_ ->> takes an expression and inserts it as the last argument of the next form, improves readability for sequence transformations because most sequence functions take the collection as the last argument.
 
 @endmindmap
