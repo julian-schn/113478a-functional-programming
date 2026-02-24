@@ -15,44 +15,70 @@
   (map (fn [t g] (score-letter t g target))
        target guess))
 
-;; The Game Loop
+(defn score->emoji [score]
+  (case score
+    :green  "🟩"
+    :yellow "🟨"
+    :miss   "⬛"))
+
+;; Display
+
+(defn clear-screen []
+  (print "\033[H\033[2J")
+  (flush))
 
 (defn print-board [target attempts]
-  (->> attempts
-       (map #(score-guess target %))
-       (run! println)))
+  (println "┌─────────────────────┐")
+  (println "│   C L O R D L E     │")
+  (println "└─────────────────────┘")
+  (println)
+  (doseq [guess attempts]
+    (let [scores (score-guess target guess)
+          emojis (str/join " " (map score->emoji scores))
+          letters (str/join " " (map str/upper-case (map str guess)))]
+      (println (str "  " emojis))
+      (println (str "  " letters))
+      (println)))
+  ;; Empty slots for remaining attempts
+  (doseq [_ (range (- 6 (count attempts)))]
+    (println "  ⬜ ⬜ ⬜ ⬜ ⬜")
+    (println)))
+
+;; The Game Loop
 
 (defn game-loop [{:keys [target attempts] :as state}]
+  (clear-screen)
   (print-board target attempts)
-  ;; Show attempts left (6 - count)
-  (println "Enter your guess (" (- 6 (count attempts)) " attempts left):")
-  
-  (let [guess (str/lower-case (read-line))]
+  (println (str "Attempt " (inc (count attempts)) " of 6 — enter your guess:"))
+
+  (let [guess (str/lower-case (str/trim (read-line)))]
     (cond
       ;; Invalid input: re-prompt without consuming an attempt
       (not (re-matches #"[a-z]{5}" guess))
       (do
-        (println "Invalid guess: must be exactly 5 letters. Try again.")
+        (println "Invalid guess: must be exactly 5 letters.")
+        (Thread/sleep 1200)
         (recur state))
 
       ;; Case 1: Win
       (= guess target)
-      (println "YOU WON! The word was:" target)
+      (do
+        (clear-screen)
+        (print-board target (conj attempts guess))
+        (println "YOU WON! 🎉"))
 
-      ;; Case 2: Lose (Reached 6th try and missed)
+      ;; Case 2: Lose (reached 6th try and missed)
       (= (count attempts) 5)
-      (println "GAME OVER! The word was:" target)
+      (do
+        (clear-screen)
+        (print-board target (conj attempts guess))
+        (println (str "GAME OVER! The word was: " (str/upper-case target))))
 
       ;; Case 3: Continue
       :else
-      (do
-        (println "Score:" (score-guess target guess))
-        ;; Use 'recur' for Tail Call Optimization (TCO)
-        (recur (assoc state :attempts (conj attempts guess)))))))
+      (recur (assoc state :attempts (conj attempts guess))))))
 
 ;; Entry Point
-(println "--- Clordle: Clojure Wordle ---")
 (game-loop {:target "react" :attempts []})
 
 ;; TODO: Word list
-;; TODO: Keep track of guesses, mark green/yellow
