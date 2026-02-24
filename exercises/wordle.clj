@@ -40,7 +40,7 @@
       (do 
         (println "Score:" (score-guess target guess))
         ;; Use 'recur' for Tail Call Optimization (TCO)
-        (recur (assoc state :attempts (conj attempts guess))))))
+        (recur (assoc state :attempts (conj attempts guess)))))))
 
 ;; Entry Point
 (println "--- Clordle: Clojure Wordle ---")
