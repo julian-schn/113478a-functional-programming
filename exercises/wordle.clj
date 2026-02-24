@@ -1,3 +1,5 @@
+(require '[clojure.string :as str])
+
 ;; Pure Helper Functions
 
 (defn in-word? [word letter]
@@ -25,19 +27,25 @@
   ;; Show attempts left (6 - count)
   (println "Enter your guess (" (- 6 (count attempts)) " attempts left):")
   
-  (let [guess (read-line)]
+  (let [guess (str/lower-case (read-line))]
     (cond
+      ;; Invalid input: re-prompt without consuming an attempt
+      (not (re-matches #"[a-z]{5}" guess))
+      (do
+        (println "Invalid guess: must be exactly 5 letters. Try again.")
+        (recur state))
+
       ;; Case 1: Win
       (= guess target)
       (println "YOU WON! The word was:" target)
 
       ;; Case 2: Lose (Reached 6th try and missed)
-      (= (count attempts) 5) 
+      (= (count attempts) 5)
       (println "GAME OVER! The word was:" target)
 
       ;; Case 3: Continue
       :else
-      (do 
+      (do
         (println "Score:" (score-guess target guess))
         ;; Use 'recur' for Tail Call Optimization (TCO)
         (recur (assoc state :attempts (conj attempts guess)))))))
@@ -46,6 +54,5 @@
 (println "--- Clordle: Clojure Wordle ---")
 (game-loop {:target "react" :attempts []})
 
-;; TODO: Input validation
 ;; TODO: Word list
 ;; TODO: Keep track of guesses, mark green/yellow
